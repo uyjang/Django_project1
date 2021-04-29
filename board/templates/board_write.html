@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<!-- col-12라는 뜻은 열이 12개라는 뜻이고 그것은 한 행(row)을 가득 채운다는 의미 -->
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>글쓰기</h1>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        <form method="POST" action=".">
+            {% csrf_token %}  
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field.field.widget.name }}
+                {% ifequal field.name 'contents' %}
+                <!-- 텍스트 에어리어는 input태그에서 type을 설정해서 할 수 있는 것이아니고 완전 다르기 때문에 조건문을 통해서 텍스트에어리어 태그를 생성 -->
+                <textarea class="form-control" name="{{ field.name }}" placeholder="{{ field.label }}"></textarea>
+                <!-- 여러 줄로 입력할 수 있는 텍스트에어리어를 만들기 -->
+                {% else %}
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" name="{{ field.name }}"/>
+                {% endifequal %}
+            </div>
+            {% if field.errors %}
+            <span style="color : red">{{ field.errors }}</span>   
+            {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">글쓰기</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='/board/list/'">돌아가기</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>회원가입</h1>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        {{ error }}
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        <form method="POST" action=".">
+            <!-- 폼의 경우 뷰와 연동해서 데이터를 서버에 전달해준다. 그때 나쁜놈들이 자기네 웹사이트에서 전송을 하는 경ㅇ도 있음 그때 아래의 토큰 키를 보고 잘못된 요청이라고 서버가 판단해서 거절함. -->
+            {% csrf_token %}  
+            <div class="mb-3">
+                <label for="username" class="form-label">사용자 이름</label>
+                <input type="text" class="form-control" id="username" placeholder="사용자 이름" name="username">
+                <!-- name값이 있어야 그 네임이 뷰를통해 데이터베이스 서버로 들어왔을 때 하나의 키가 되는 것임. 이 네임값들로 정보들이 전달됨. -->
+            </div>
+            <div class="mb-3">
+                <label for="useremail" class="form-label">사용자 이메일</label>
+                <input type="email" class="form-control" id="useremail" placeholder="사용자 이메일" name="useremail">
+                </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="password" placeholder="비밀번호" name="password">
+            </div>
+            <div class="mb-3">
+                <label for="re-password" class="form-label">비밀번호 확인</label>
+                <input type="password" class="form-control" id="re-password" placeholder="비밀번호 확인" name="re-password">
+                </div>
+            <button type="submit" class="btn btn-primary">등록</button>
+            </form>
+    </div>
+</div>
+{% endblock %}
+

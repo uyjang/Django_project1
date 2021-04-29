@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h1>로그인</h1>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        {{ error }}
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-12">
+        <form method="POST" action=".">
+            <!-- 폼의 경우 데이터를 서버에 전달해준다. 그때 나쁜놈들이 자기네 웹사이트에서 전송을 하는 경ㅇ도 있음 그때 아래의 토큰 키를 보고 잘못된 요청이라고 서버가 판단해서 거절함. -->
+            {% csrf_token %}  
+            <!-- <div class="mb-3">
+                <label for="username" class="form-label">사용자 이름</label>
+                <input type="text" class="form-control" id="username" placeholder="사용자 이름" name="username">
+                 name값이 있어야 그 네임이 서버로 들어왔을 때 하나의 키가 되는 것임. 이 네임값들로 정보들이 전달됨. -->
+            <!-- </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="password" placeholder="비밀번호" name="password">
+            </div>
+             <button type="submit" class="btn btn-primary">등록</button> -->
+             <!-- {{ form }}  -->
+             <!-- form을 넣으면 forms.py에서 설정한 필드들이 나옴. 지금은 따로 꾸미지를 않아서 기본형태로 나오는 상태. 또한 폼을 사용하면 입력칸에 값을 채워넣으라고 자동으로 검사를 해줌 -->
+            {% for field in form %}
+            <!-- 반복문 안쪽에서 forms.py의 필드값을 가져오고 커스터마이징도 할 것임. -->
+            <div class="form-group">
+                <label for="{{ field.id_for_label}}">{{ field.label }}</label>
+                <!-- form이라는 변수 안에는 id_for_label이라는 변수가 있음. -->
+                <!-- field.label은 for문이 돌아가므로 순서대로 username과 password가 입력될 것임 -->
+                <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label}}" placeholder="{{ field.label }}" name="{{ field.name }}"/>
+            </div>
+            {% if field.errors %}
+            <span style="color:red">{{ field.errors }}</span>
+            {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">로그인</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
